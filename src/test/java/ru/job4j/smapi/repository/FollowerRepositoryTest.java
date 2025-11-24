@@ -12,6 +12,7 @@ import ru.job4j.smapi.model.compoundkeys.FollowerKey;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ActiveProfiles("test")
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class FollowerRepositoryTest {
