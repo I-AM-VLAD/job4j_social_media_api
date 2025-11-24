@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import ru.job4j.smapi.model.Follower;
 import ru.job4j.smapi.model.User;
 import ru.job4j.smapi.model.compoundkeys.FollowerKey;
