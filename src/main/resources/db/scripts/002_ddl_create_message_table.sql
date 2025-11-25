@@ -1,6 +1,6 @@
 CREATE TABLE message (
     id SERIAL PRIMARY KEY,
-    sender_id INT REFERENCES users(id),
-    receiver_id INT REFERENCES users(id),
+    sender_id INT REFERENCES users(id) ON DELETE CASCADE,
+    receiver_id INT REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

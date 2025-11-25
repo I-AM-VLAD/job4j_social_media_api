@@ -6,12 +6,14 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import org.springframework.test.context.ActiveProfiles;
 import ru.job4j.smapi.model.Message;
 import ru.job4j.smapi.model.User;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ActiveProfiles("test")
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MessageRepositoryTest {
@@ -24,8 +26,8 @@ class MessageRepositoryTest {
 
     @BeforeEach
     public void setUp() {
-        userRepository.deleteAll();
         messageRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test

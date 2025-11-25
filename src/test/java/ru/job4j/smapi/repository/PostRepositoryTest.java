@@ -6,6 +6,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import org.springframework.test.context.ActiveProfiles;
 import ru.job4j.smapi.model.Message;
 import ru.job4j.smapi.model.Post;
 import ru.job4j.smapi.model.User;
@@ -16,6 +17,7 @@ import java.time.temporal.ChronoUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ActiveProfiles("test")
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 
@@ -29,8 +31,8 @@ class PostRepositoryTest {
 
     @BeforeEach
     public void setUp() {
-        userRepository.deleteAll();
         postRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test
