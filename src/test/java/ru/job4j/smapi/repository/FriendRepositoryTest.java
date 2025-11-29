@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import ru.job4j.smapi.model.Follower;
 import ru.job4j.smapi.model.Friend;
@@ -15,6 +16,7 @@ import ru.job4j.smapi.model.compoundkeys.FriendKey;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class FriendRepositoryTest {
