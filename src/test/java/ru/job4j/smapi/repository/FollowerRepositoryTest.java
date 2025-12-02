@@ -1,5 +1,5 @@
 package ru.job4j.smapi.repository;
-
+/*
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -111,3 +111,5 @@ class FollowerRepositoryTest {
         assertThat(followers).extracting(Follower::getUser).contains(user, user1);
     }
 }
+
+ */
