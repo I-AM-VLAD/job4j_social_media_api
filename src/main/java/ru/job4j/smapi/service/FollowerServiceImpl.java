@@ -1,6 +1,8 @@
 package ru.job4j.smapi.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.job4j.smapi.model.Follower;
 import ru.job4j.smapi.model.Friend;
 import ru.job4j.smapi.model.User;
@@ -9,6 +11,8 @@ import ru.job4j.smapi.model.compoundkeys.FriendKey;
 import ru.job4j.smapi.repository.FollowerRepository;
 import ru.job4j.smapi.repository.FriendRepository;
 
+@Service
+@Transactional
 public class FollowerServiceImpl implements FollowerService {
 
     @Autowired
