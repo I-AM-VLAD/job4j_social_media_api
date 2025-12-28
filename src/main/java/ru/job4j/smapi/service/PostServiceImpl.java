@@ -31,7 +31,7 @@ public class PostServiceImpl implements PostService {
     }
 
     public void deletePost(Integer id) {
-        postRepository.deleteByIdHql(id);
+        postRepository.deleteById(id);
     }
 
 }

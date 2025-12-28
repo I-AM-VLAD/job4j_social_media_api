@@ -14,7 +14,7 @@ import ru.job4j.smapi.service.UserService;
 public class UserController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @PostMapping
     public ResponseEntity<User> save(@RequestBody User user) {

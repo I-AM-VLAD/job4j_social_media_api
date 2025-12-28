@@ -11,7 +11,7 @@ import ru.job4j.smapi.repository.UserRepository;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     public User save(User user) {
         return userRepository.save(user);
@@ -26,7 +26,6 @@ public class UserServiceImpl implements UserService {
         user.setName(userUpdate.getName());
         user.setEmail(userUpdate.getEmail());
         user.setPassword(userUpdate.getPassword());
-        user.setPosts(userUpdate.getPosts());
         userRepository.save(user);
     }
 }

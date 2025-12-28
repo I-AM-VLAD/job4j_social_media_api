@@ -14,7 +14,7 @@ import ru.job4j.smapi.service.PostService;
 public class PostController {
 
     @Autowired
-    PostService postService;
+   private PostService postService;
 
     @PostMapping
     public ResponseEntity<Post> save(@RequestBody Post post) {
