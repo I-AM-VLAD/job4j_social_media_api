@@ -21,17 +21,27 @@ public class PostServiceImpl implements PostService {
     }
 
     @Transactional
-    public void updatePost(Post postReplace) {
-        Post post = postRepository.findById(postReplace.getId()).orElseThrow();
-        post.setTitle(postReplace.getTitle());
-        post.setContent(postReplace.getContent());
-        post.setImageUrl(postReplace.getImageUrl());
-        post.setUpdatedAt(postReplace.getUpdatedAt());
-        postRepository.save(post);
+    public Boolean updatePost(Post postReplace) {
+        boolean flag = false;
+        if (postReplace != null) {
+            Post post = postRepository.findById(postReplace.getId()).orElseThrow();
+            post.setTitle(postReplace.getTitle());
+            post.setContent(postReplace.getContent());
+            post.setImageUrl(postReplace.getImageUrl());
+            post.setUpdatedAt(postReplace.getUpdatedAt());
+            postRepository.save(post);
+            flag = true;
+        }
+        return flag;
     }
 
-    public void deletePost(Integer id) {
+    public Boolean deletePost(Integer id) {
+        boolean flag = false;
         postRepository.deleteById(id);
+        if (postRepository.findById(id).isEmpty()) {
+            flag = true;
+        }
+        return flag;
     }
 
 }

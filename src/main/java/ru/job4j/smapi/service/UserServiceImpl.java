@@ -17,15 +17,25 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    public void deleteById(Integer id) {
+    public Boolean deleteById(Integer id) {
+        boolean flag = false;
         userRepository.deleteById(id);
+        if (userRepository.findById(id).isEmpty()) {
+            flag = true;
+        }
+        return flag;
     }
 
-    public void update(User userUpdate) {
-        User user = userRepository.findById(userUpdate.getId()).orElseThrow();
-        user.setName(userUpdate.getName());
-        user.setEmail(userUpdate.getEmail());
-        user.setPassword(userUpdate.getPassword());
-        userRepository.save(user);
+    public Boolean update(User userUpdate) {
+        boolean flag = false;
+        if (userUpdate != null) {
+            User user = userRepository.findById(userUpdate.getId()).orElseThrow();
+            user.setName(userUpdate.getName());
+            user.setEmail(userUpdate.getEmail());
+            user.setPassword(userUpdate.getPassword());
+            userRepository.save(user);
+            flag = true;
+        }
+        return flag;
     }
 }

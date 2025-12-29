@@ -7,6 +7,6 @@ import java.time.LocalDateTime;
 
 public interface PostService {
     Post save(Post post);
-    void updatePost(Post postReplace);
-    void deletePost(Integer id);
+    Boolean updatePost(Post postReplace);
+    Boolean deletePost(Integer id);
 }

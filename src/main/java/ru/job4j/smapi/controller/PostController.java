@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.job4j.smapi.model.Post;
 import ru.job4j.smapi.service.PostService;
 
@@ -18,18 +19,30 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<Post> save(@RequestBody Post post) {
-        return ResponseEntity.ok(postService.save(post));
+        postService.save(post);
+        var uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(post.getId())
+                .toUri();
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .location(uri)
+                .body(post);
     }
 
     @DeleteMapping("/{userId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(@PathVariable int userId) {
-        postService.deletePost(userId);
+    public ResponseEntity<Void> deleteById(@PathVariable int userId) {
+        if (postService.deletePost(userId)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping
-    @ResponseStatus(HttpStatus.OK)
-    public void update(@RequestBody Post post) {
-        postService.updatePost(post);
+    public ResponseEntity<Void> update(@RequestBody Post post) {
+        if (postService.updatePost(post)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }
