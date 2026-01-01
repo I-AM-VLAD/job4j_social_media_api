@@ -6,8 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.job4j.smapi.dto.UserDto;
 import ru.job4j.smapi.model.Post;
+import ru.job4j.smapi.model.User;
 import ru.job4j.smapi.service.PostService;
+import ru.job4j.smapi.service.UserService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -16,6 +22,9 @@ public class PostController {
 
     @Autowired
    private PostService postService;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping
     public ResponseEntity<Post> save(@RequestBody Post post) {
@@ -44,5 +53,21 @@ public class PostController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    public List<UserDto> toDto(List<Integer> userIds) {
+        List<UserDto> dtos = new ArrayList<>();
+        for (Integer id : userIds) {
+            UserDto newUserDto = new UserDto();
+            if (userService.getById(id).isEmpty()) {
+                continue;
+            }
+            User user = userService.getById(id).get();
+            newUserDto.setId(user.getId());
+            newUserDto.setName(user.getName());
+            newUserDto.setPosts(user.getPosts());
+            dtos.add(newUserDto);
+        }
+        return dtos;
     }
 }

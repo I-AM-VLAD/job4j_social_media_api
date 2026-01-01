@@ -8,6 +8,7 @@ import ru.job4j.smapi.model.User;
 import ru.job4j.smapi.repository.PostRepository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements PostService {
