@@ -14,6 +14,7 @@ import ru.job4j.smapi.service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
@@ -56,13 +57,16 @@ public class PostController {
     }
 
     public List<UserDto> toDto(List<Integer> userIds) {
+        List<User> users = new ArrayList<>();
         List<UserDto> dtos = new ArrayList<>();
         for (Integer id : userIds) {
-            UserDto newUserDto = new UserDto();
-            if (userService.getById(id).isEmpty()) {
-                continue;
+            Optional<User> user = userService.getById(id);
+            if (user.isPresent()) {
+                users.add(user.get());
             }
-            User user = userService.getById(id).get();
+        }
+        for (User user : users) {
+            UserDto newUserDto = new UserDto();
             newUserDto.setId(user.getId());
             newUserDto.setName(user.getName());
             newUserDto.setPosts(user.getPosts());
@@ -70,4 +74,5 @@ public class PostController {
         }
         return dtos;
     }
+
 }
