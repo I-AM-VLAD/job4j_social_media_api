@@ -1,11 +1,13 @@
 package ru.job4j.smapi.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.job4j.smapi.dto.UserDto;
 import ru.job4j.smapi.model.User;
 import ru.job4j.smapi.service.UserService;
 
@@ -18,8 +20,8 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> save(@RequestBody User user) {
-        userService.save(user);
+    public ResponseEntity<UserDto> save(@Valid @RequestBody UserDto userDto) {
+        var user = userService.save(userDto);
         var uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -27,7 +29,7 @@ public class UserController {
                 .toUri();
         return ResponseEntity.status(HttpStatus.CREATED)
                 .location(uri)
-                .body(user);
+                .body(userDto);
     }
 
     @DeleteMapping("/{userId}")
