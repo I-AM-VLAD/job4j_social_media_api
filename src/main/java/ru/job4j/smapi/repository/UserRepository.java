@@ -22,4 +22,8 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Query("SELECT f.followerUser FROM Follower f WHERE f.user.id = :id")
     List<User> findFollowersByUserId(@Param("id") Integer id);
 
+    @Query("SELECT u FROM User u WHERE u.id IN :userIds")
+    List<User> findUsers(@Param("userIds") List<Integer> userIds);
+
+
 }

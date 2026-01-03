@@ -7,6 +7,7 @@ import ru.job4j.smapi.model.Post;
 import ru.job4j.smapi.model.User;
 import ru.job4j.smapi.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,5 +44,9 @@ public class UserServiceImpl implements UserService {
 
     public Optional<User> getById(Integer id) {
         return userRepository.findById(id);
+    }
+
+    public List<User> findUsers(List<Integer> userIds) {
+        return userRepository.findUsers(userIds);
     }
 }

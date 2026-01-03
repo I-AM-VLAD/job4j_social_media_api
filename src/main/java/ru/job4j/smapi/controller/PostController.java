@@ -57,14 +57,8 @@ public class PostController {
     }
 
     public List<UserDto> toDto(List<Integer> userIds) {
-        List<User> users = new ArrayList<>();
+        List<User> users = userService.findUsers(userIds);
         List<UserDto> dtos = new ArrayList<>();
-        for (Integer id : userIds) {
-            Optional<User> user = userService.getById(id);
-            if (user.isPresent()) {
-                users.add(user.get());
-            }
-        }
         for (User user : users) {
             UserDto newUserDto = new UserDto();
             newUserDto.setId(user.getId());
