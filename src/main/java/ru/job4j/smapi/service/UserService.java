@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface UserService {
     User save(UserDto userDto);
     Boolean deleteById(Integer id);
-    Boolean update(User userUpdate);
+    Boolean update(UserDto userUpdateDto);
     Optional<User> getById(Integer id);
     List<User> findUsers(List<Integer> userIds);
 }

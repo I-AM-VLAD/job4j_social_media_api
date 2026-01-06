@@ -1,5 +1,11 @@
 package ru.job4j.smapi.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +17,7 @@ import ru.job4j.smapi.dto.UserDto;
 import ru.job4j.smapi.model.User;
 import ru.job4j.smapi.service.UserService;
 
+@Tag(name = "UserController", description = "UserController management APIs")
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/user")
@@ -41,8 +48,8 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody User user) {
-        if (userService.update(user)) {
+    public ResponseEntity<Void> update(@Valid @RequestBody UserDto userDto) {
+        if (userService.update(userDto)) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();

@@ -31,13 +31,11 @@ public class UserServiceImpl implements UserService {
         return flag;
     }
 
-    public Boolean update(User userUpdate) {
+    public Boolean update(UserDto userUpdateDto) {
         boolean flag = false;
-        if (userUpdate != null) {
-            User user = userRepository.findById(userUpdate.getId()).orElseThrow();
-            user.setName(userUpdate.getName());
-            user.setEmail(userUpdate.getEmail());
-            user.setPassword(userUpdate.getPassword());
+        if (userUpdateDto != null) {
+            User user = userRepository.findById(userUpdateDto.getId()).orElseThrow();
+            user.setName(userUpdateDto.getName());
             userRepository.save(user);
             flag = true;
         }

@@ -3,6 +3,7 @@ package ru.job4j.smapi.service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.job4j.smapi.dto.PostDto;
 import ru.job4j.smapi.model.Post;
 import ru.job4j.smapi.model.User;
 import ru.job4j.smapi.repository.PostRepository;
@@ -17,19 +18,19 @@ public class PostServiceImpl implements PostService {
     private PostRepository postRepository;
 
     @Transactional
-    public Post save(Post post) {
+    public Post save(PostDto postDto) {
+        Post post = fromDtoToPost(postDto);
         return postRepository.save(post);
     }
 
     @Transactional
-    public Boolean updatePost(Post postReplace) {
+    public Boolean updatePost(PostDto postReplaceDto) {
         boolean flag = false;
-        if (postReplace != null) {
-            Post post = postRepository.findById(postReplace.getId()).orElseThrow();
-            post.setTitle(postReplace.getTitle());
-            post.setContent(postReplace.getContent());
-            post.setImageUrl(postReplace.getImageUrl());
-            post.setUpdatedAt(postReplace.getUpdatedAt());
+        if (postReplaceDto != null) {
+            Post post = postRepository.findById(postReplaceDto.getId()).orElseThrow();
+            post.setTitle(postReplaceDto.getTitle());
+            post.setContent(postReplaceDto.getContent());
+            post.setImageUrl(postReplaceDto.getImageUrl());
             postRepository.save(post);
             flag = true;
         }
@@ -43,6 +44,15 @@ public class PostServiceImpl implements PostService {
             flag = true;
         }
         return flag;
+    }
+
+    public Post fromDtoToPost(PostDto postDto) {
+        Post post = new Post();
+        post.setId(postDto.getId());
+        post.setTitle(postDto.getTitle());
+        post.setContent(postDto.getContent());
+        post.setImageUrl(postDto.getImageUrl());
+        return post;
     }
 
 }

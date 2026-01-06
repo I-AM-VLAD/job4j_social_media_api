@@ -1,11 +1,14 @@
 package ru.job4j.smapi.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.job4j.smapi.dto.PostDto;
 import ru.job4j.smapi.dto.UserDto;
 import ru.job4j.smapi.model.Post;
 import ru.job4j.smapi.model.User;
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "PostController", description = "PostController management APIs")
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/post")
@@ -28,8 +32,8 @@ public class PostController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<Post> save(@RequestBody Post post) {
-        postService.save(post);
+    public ResponseEntity<PostDto> save(@Valid @RequestBody PostDto postDto) {
+        var post = postService.save(postDto);
         var uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -37,7 +41,7 @@ public class PostController {
                 .toUri();
         return ResponseEntity.status(HttpStatus.CREATED)
                 .location(uri)
-                .body(post);
+                .body(postDto);
     }
 
     @DeleteMapping("/{userId}")
@@ -49,8 +53,8 @@ public class PostController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody Post post) {
-        if (postService.updatePost(post)) {
+    public ResponseEntity<Void> update(@Valid @RequestBody PostDto postDto) {
+        if (postService.updatePost(postDto)) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
