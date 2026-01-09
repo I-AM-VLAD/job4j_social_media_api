@@ -1,5 +1,10 @@
 package ru.job4j.smapi.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -31,6 +36,13 @@ public class PostController {
     @Autowired
     private UserService userService;
 
+    @Operation(
+            summary = "Save postDto ",
+            description = "Save postDto. The response is postDto",
+            tags = { "PostDto", "save" })
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", content = { @Content(schema = @Schema(implementation = PostDto.class), mediaType = "application/json") }),
+            @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }) })
     @PostMapping
     public ResponseEntity<PostDto> save(@Valid @RequestBody PostDto postDto) {
         var post = postService.save(postDto);
@@ -44,14 +56,28 @@ public class PostController {
                 .body(postDto);
     }
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteById(@PathVariable int userId) {
-        if (postService.deletePost(userId)) {
+    @Operation(
+            summary = "Delete post by postId ",
+            description = "Delete post. The response is Void",
+            tags = { "Void", "deleteById" })
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", content = { @Content(schema = @Schema(), mediaType = "application/json") }),
+            @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }) })
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<Void> deleteById(@PathVariable int postId) {
+        if (postService.deletePost(postId)) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
     }
 
+    @Operation(
+            summary = "Update postDto ",
+            description = "Update postDto. The response is Void",
+            tags = { "Void", "update" })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(), mediaType = "application/json") }),
+            @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }) })
     @PutMapping
     public ResponseEntity<Void> update(@Valid @RequestBody PostDto postDto) {
         if (postService.updatePost(postDto)) {
