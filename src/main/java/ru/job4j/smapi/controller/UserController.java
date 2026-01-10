@@ -17,24 +17,14 @@ import ru.job4j.smapi.dto.UserDto;
 import ru.job4j.smapi.model.User;
 import ru.job4j.smapi.service.UserService;
 
-@Tag(name = "UserController", description = "UserController management APIs")
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/user")
-public class UserController {
+public class UserController implements UserControllerInterface {
 
     @Autowired
     private UserService userService;
 
-    @Operation(
-            summary = "Save UserDto ",
-            description = "Save UserDto. The response is userDto",
-            tags = { "UserDto", "save" })
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", content = { @Content(schema = @Schema(implementation = UserDto.class), mediaType = "application/json") }),
-            @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }) })
-    @PostMapping
-    public ResponseEntity<UserDto> save(@Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> save(UserDto userDto) {
         var user = userService.save(userDto);
         var uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -46,30 +36,14 @@ public class UserController {
                 .body(userDto);
     }
 
-    @Operation(
-            summary = "Delete user by userId ",
-            description = "Delete user. The response is Void",
-            tags = { "Void", "deleteById" })
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", content = { @Content(schema = @Schema(), mediaType = "application/json") }),
-            @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }) })
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteById(@PathVariable int userId) {
+    public ResponseEntity<Void> deleteById(int userId) {
         if (userService.deleteById(userId)) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
     }
 
-    @Operation(
-            summary = "Update userDto ",
-            description = "Update userDto. The response is Void",
-            tags = { "Void", "update" })
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(), mediaType = "application/json") }),
-            @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }) })
-    @PutMapping
-    public ResponseEntity<Void> update(@Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<Void> update(UserDto userDto) {
         if (userService.update(userDto)) {
             return ResponseEntity.ok().build();
         }
