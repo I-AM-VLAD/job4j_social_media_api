@@ -1,0 +1,18 @@
+# IDE
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+
+# Maven build output
+target/
+.mvn/
+
+# Generated / wrapper
+mvnw
+mvnw.cmd
+
+# Misc
+HELP.md
+*.log
