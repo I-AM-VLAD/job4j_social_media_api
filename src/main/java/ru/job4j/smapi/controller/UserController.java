@@ -1,20 +1,10 @@
 package ru.job4j.smapi.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.job4j.smapi.dto.UserDto;
-import ru.job4j.smapi.model.User;
 import ru.job4j.smapi.service.UserService;
 
 @AllArgsConstructor
@@ -23,18 +13,6 @@ public class UserController implements UserControllerInterface {
 
     @Autowired
     private UserService userService;
-
-    public ResponseEntity<UserDto> save(UserDto userDto) {
-        var user = userService.save(userDto);
-        var uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(user.getId())
-                .toUri();
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .location(uri)
-                .body(userDto);
-    }
 
     public ResponseEntity<Void> deleteById(int userId) {
         if (userService.deleteById(userId)) {

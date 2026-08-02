@@ -63,7 +63,6 @@ public class WebSecurityConfig {
                         "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/test/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/user").hasRole("USER")
                                 .requestMatchers(HttpMethod.PUT, "/api/user").hasAnyRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/api/user/{id}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.POST, "/api/post").hasRole("USER")

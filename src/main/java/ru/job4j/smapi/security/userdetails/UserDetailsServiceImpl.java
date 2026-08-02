@@ -6,21 +6,25 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.job4j.smapi.security.models.Person;
-import ru.job4j.smapi.security.repository.PersonRepository;
+import ru.job4j.smapi.model.User;
+import ru.job4j.smapi.repository.UserRepository;
 
 @Service
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    PersonRepository personRepository;
+    private final UserRepository userRepository;
 
+    /**
+     * Пользователь аутентифицируется по email, поэтому параметр контракта
+     * UserDetailsService с именем username трактуется здесь как email.
+     */
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Person person = personRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
-        return UserDetailsImpl.build(person);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + email));
+        return UserDetailsImpl.build(user);
     }
 
 }

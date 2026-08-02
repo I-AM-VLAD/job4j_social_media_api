@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    User save(UserDto userDto);
     Boolean deleteById(Integer id);
     Boolean update(UserDto userUpdateDto);
     Optional<User> getById(Integer id);

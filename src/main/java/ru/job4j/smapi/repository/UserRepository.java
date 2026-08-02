@@ -10,11 +10,13 @@ import ru.job4j.smapi.model.Post;
 import ru.job4j.smapi.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
-    @Query("SELECT user FROM User AS user"
-            + " WHERE user.email = ?1 AND user.password = ?2")
-    User findByEmailAndPassword(String email, String password);
+
+    Optional<User> findByEmail(String email);
+
+    boolean existsByEmail(String email);
 
     @Query("SELECT f.friendUser FROM Friend f WHERE f.user.id = :id")
     List<User> findFriendsByUserId(@Param("id") Integer id);

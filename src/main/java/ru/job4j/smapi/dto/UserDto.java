@@ -18,9 +18,9 @@ public class UserDto {
     private Integer id;
 
     @NotBlank(message = "name не может быть пустым")
-    @Length(min = 6,
-            max = 15,
-            message = "name должно быть не менее 6 и не более 15 символов")
+    @Length(min = 3,
+            max = 20,
+            message = "name должно быть не менее 3 и не более 20 символов")
     private String name;
 
     private List<Post> posts = new ArrayList<>();

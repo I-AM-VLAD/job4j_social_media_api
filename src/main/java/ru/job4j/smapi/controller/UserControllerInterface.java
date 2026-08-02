@@ -16,16 +16,6 @@ import ru.job4j.smapi.dto.UserDto;
 public interface UserControllerInterface {
 
     @Operation(
-            summary = "Save UserDto ",
-            description = "Save UserDto. The response is userDto",
-            tags = { "UserDto", "save" })
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", content = { @Content(schema = @Schema(implementation = UserDto.class), mediaType = "application/json") }),
-            @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }) })
-    @PostMapping
-    ResponseEntity<UserDto> save(@Valid @RequestBody UserDto userDto);
-
-    @Operation(
             summary = "Delete user by userId ",
             description = "Delete user. The response is Void",
             tags = { "Void", "deleteById" })

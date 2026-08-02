@@ -17,11 +17,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User save(UserDto userDto) {
-        User user = fromDtoToUser(userDto);
-        return userRepository.save(user);
-    }
-
     public Boolean deleteById(Integer id) {
         boolean flag = false;
         userRepository.deleteById(id);
@@ -48,14 +43,5 @@ public class UserServiceImpl implements UserService {
 
     public List<User> findUsers(List<Integer> userIds) {
         return userRepository.findUsers(userIds);
-    }
-
-    public User fromDtoToUser(UserDto userDto) {
-        User user = new User();
-        user.setId(userDto.getId());
-        user.setName(userDto.getName());
-        user.setPosts(userDto.getPosts());
-
-        return user;
     }
 }

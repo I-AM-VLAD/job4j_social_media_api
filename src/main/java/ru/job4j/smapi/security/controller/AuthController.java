@@ -19,7 +19,7 @@ import ru.job4j.smapi.security.dtos.response.JwtResponseDTO;
 import ru.job4j.smapi.security.dtos.response.MessageResponseDTO;
 import ru.job4j.smapi.security.dtos.response.RegisterDTO;
 import ru.job4j.smapi.security.jwt.JwtUtils;
-import ru.job4j.smapi.security.services.PersonService;
+import ru.job4j.smapi.security.services.AuthService;
 import ru.job4j.smapi.security.userdetails.UserDetailsImpl;
 
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.List;
 @RequestMapping("/api/auth")
 public class AuthController {
     @Autowired
-    private PersonService personService;
+    private AuthService authService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -39,7 +39,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<MessageResponseDTO> registerUser(@Valid @RequestBody SignupRequestDTO signUpRequest) {
-        RegisterDTO registerDTO = personService.signUp(signUpRequest);
+        RegisterDTO registerDTO = authService.signUp(signUpRequest);
         return ResponseEntity.status(registerDTO.getStatus())
                 .body(new MessageResponseDTO(registerDTO.getMessage()));
     }
@@ -48,7 +48,7 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<JwtResponseDTO> authenticateUser(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
         Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginRequestDTO.getUsername(), loginRequestDTO.getPassword()));
+                .authenticate(new UsernamePasswordAuthenticationToken(loginRequestDTO.getEmail(), loginRequestDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -56,7 +56,7 @@ public class AuthController {
                 .map(GrantedAuthority::getAuthority)
                 .toList();
         return ResponseEntity
-                .ok(new JwtResponseDTO(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
+                .ok(new JwtResponseDTO(jwt, userDetails.getId(), userDetails.getName(), userDetails.getEmail(), roles));
     }
 
 

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.job4j.smapi.security.models.Person;
+import ru.job4j.smapi.model.User;
 
 import java.io.Serial;
 import java.util.Collection;
@@ -16,9 +16,9 @@ public class UserDetailsImpl implements UserDetails {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private Integer id;
 
-    private String username;
+    private String name;
 
     private String email;
 
@@ -27,24 +27,24 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Long id, String username, String email, String password,
+    public UserDetailsImpl(Integer id, String name, String email, String password,
                            Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
-        this.username = username;
+        this.name = name;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
     }
 
-    public static UserDetailsImpl build(Person person) {
-        List<GrantedAuthority> authorities = person.getRoles().stream()
+    public static UserDetailsImpl build(User user) {
+        List<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
 
-        return new UserDetailsImpl(person.getId(),
-                person.getUsername(),
-                person.getEmail(),
-                person.getPassword(),
+        return new UserDetailsImpl(user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getPassword(),
                 authorities);
     }
 
@@ -53,8 +53,12 @@ public class UserDetailsImpl implements UserDetails {
         return authorities;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getEmail() {
@@ -66,9 +70,13 @@ public class UserDetailsImpl implements UserDetails {
         return password;
     }
 
+    /**
+     * Идентификатором для входа служит email: это значение попадает в subject JWT
+     * и возвращается обратно в UserDetailsServiceImpl.loadUserByUsername.
+     */
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
@@ -105,6 +113,6 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, email, password, authorities);
+        return Objects.hash(id, name, email, password, authorities);
     }
 }
