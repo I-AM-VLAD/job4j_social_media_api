@@ -53,6 +53,18 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @JsonIgnore
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Friend> userFriends = new ArrayList<>();
+
+    @JsonIgnore
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "friendUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Friend> friendUsers = new ArrayList<>();
+
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;

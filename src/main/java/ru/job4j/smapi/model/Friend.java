@@ -33,4 +33,11 @@ public class Friend {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
+
+    public Friend(FriendKey id, User user, User friendUser, String status) {
+        this.id = id;
+        this.user = user;
+        this.friendUser = friendUser;
+        this.status = status;
+    }
 }

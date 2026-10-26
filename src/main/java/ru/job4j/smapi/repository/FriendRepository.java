@@ -11,4 +11,7 @@ import ru.job4j.smapi.model.compoundkeys.FriendKey;
 import java.util.List;
 
 public interface FriendRepository extends CrudRepository<Friend, FriendKey> {
+
+    List<Friend> findByIdFriendIdAndStatus(Integer friendId, String status);
+
 }
